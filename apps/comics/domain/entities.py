@@ -1,9 +1,4 @@
-from dataclasses import dataclass
-
-
-@dataclass
-class ComicId:
-    value: str
+from .vo import ComicId
 
 
 class Comic:
