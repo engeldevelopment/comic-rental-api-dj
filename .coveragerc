@@ -3,7 +3,9 @@ source = apps
 
 [report]
 ignore_errors = True
-exclude_lines = def __str__
+exclude_lines = 
+  def __str__
+  pass
 omit =
   */tests/*
   */migrations/*
