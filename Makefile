@@ -10,5 +10,5 @@ test:
 	@$(TOOL) test
 
 coverage:
-	@coverage manage.py test
+	@coverage run manage.py test
 	@coverage report

@@ -30,6 +30,10 @@ INSTALLED_APPS += [
     'django_injector',
 ]
 
+INSTALLED_APPS += [
+    'apps.comics.infrastructure.dj.comicsapp',
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
