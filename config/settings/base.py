@@ -49,7 +49,7 @@ MIDDLEWARE = [
 # Config of Django Injector
 
 INJECTOR_MODULES = [
-
+    'apps.comics.infrastructure.di.modules.ComicModule',
 ]
 
 ROOT_URLCONF = 'config.urls'
