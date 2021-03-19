@@ -1,5 +1,6 @@
 from injector import Module, singleton
 
+from apps.comics.domain.services import ObtainAmountToPayService, ObtainPercentOfDiscount
 from apps.comics.domain.repositories import ComicRepository, RentRepository
 from apps.comics.application.finders import ComicAllFinder
 from apps.comics.application.services import ComicRentService
@@ -14,3 +15,5 @@ class ComicModule(Module):
         binder.bind(ComicAllFinder, scope=singleton)
         binder.bind(ComicRentService, to=ComicRentService)
         binder.bind(RentRepository, to=RentDjangoRepository)
+        binder.bind(ObtainAmountToPayService, to=ObtainAmountToPayService)
+        binder.bind(ObtainPercentOfDiscount, to=ObtainPercentOfDiscount)

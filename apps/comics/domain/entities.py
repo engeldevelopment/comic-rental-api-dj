@@ -5,28 +5,26 @@ from .vo import ComicId
 
 class Comic:
     def __init__(self, id, name, price, status):
-        self.id = ComicId(id)
+        self._id = ComicId(id)
         self.name = name
         self.price = price
         self.status = status
 
     @property
     def id(self):
-        return self.id.value
+        return self._id.value
     
-    @id.setter
-    def id(self, value):
-        self.id = ComicId(value)
-
 
 class Rent:
-    def __init__(self, id, days, client, rented_at, comicId: ComicId, finished_at=None):
+    def __init__(self, id, days, client, rented_at, comicId: ComicId, finished_at=None, price=None, amount=None):
         self.id = id
         self.days = int(days)
         self.client = client
         self.rented_at = rented_at
         self.comicId = comicId
         self.finished_at = finished_at
+        self.price = price
+        self.amount = amount
 
     @property
     def get_finished_at(self):

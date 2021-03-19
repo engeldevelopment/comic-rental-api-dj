@@ -20,23 +20,6 @@ class Comic(models.Model):
 
     def __str__(self):
         return self.name
-    
-    @property
-    def price_with_discount(self):
-        discount = 0
-        DISCOUNTS = {
-            'excelent': self.percent_of_discount(percent=10),
-            'good': self.percent_of_discount(percent=20),
-            'acceptable': self.percent_of_discount(percent=25),
-            'impaired': self.percent_of_discount(percent=30),
-            'damaged': self.percent_of_discount(percent=50)
-        }
-
-        discount = DISCOUNTS.get(self.status)
-        return self.price - discount
-    
-    def percent_of_discount(self, percent):
-        return (self.price * percent) / 100
 
 
 class Rent(models.Model):
@@ -48,8 +31,3 @@ class Rent(models.Model):
     rented_at = models.DateTimeField(editable=False)
     finished_at = models.DateTimeField(editable=False)
     comic = models.ForeignKey(Comic, on_delete=models.CASCADE, related_name='rents')
-
-    def save(self, *args, **kwargs):
-        self.amount = self.comic.price_with_discount
-        self.price = self.comic.price
-        return super().save(*args, **kwargs)

@@ -3,11 +3,16 @@ import abc
 from typing import List
 
 from .entities import Comic, Rent
+from .vo import ComicId
 
 
 class ComicRepository(abc.ABC):
     @abc.abstractmethod
     def all(self) -> List[Comic]:
+        pass
+
+    @abc.abstractmethod
+    def findById(self, id: ComicId) -> Comic:
         pass
 
 
