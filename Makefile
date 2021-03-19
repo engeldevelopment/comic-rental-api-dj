@@ -12,3 +12,6 @@ test:
 coverage:
 	@coverage run manage.py test
 	@coverage report
+
+clean:
+	@rm -rf htmlcov */**/**/**/__pycache__/

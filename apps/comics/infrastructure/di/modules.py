@@ -1,4 +1,4 @@
-from injector import Module
+from injector import Module, singleton
 
 from apps.comics.domain.repositories import ComicRepository
 from apps.comics.application.finders import ComicAllFinder
@@ -10,4 +10,4 @@ class ComicModule(Module):
 
     def configure(self, binder):
         binder.bind(ComicRepository, to=ComicDjangoRepository)
-        binder.bind(ComicAllFinder, to=ComicAllFinder)
+        binder.bind(ComicAllFinder, scope=singleton)
