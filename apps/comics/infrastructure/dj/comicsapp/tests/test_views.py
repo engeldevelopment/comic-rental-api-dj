@@ -1,10 +1,15 @@
+from datetime import datetime
+
+from uuid import uuid4
+
 from rest_framework import status
 from rest_framework.test import APITestCase
 
 from ..factories import ComicFactory
+from ..models import Rent
 
 
-class ComicListAPIView(APITestCase):
+class ComicListAPIViewTest(APITestCase):
     def setUp(self):
         self.url = '/api/v1/comics'
 
@@ -23,3 +28,26 @@ class ComicListAPIView(APITestCase):
 
         self.assertEqual(status.HTTP_200_OK, response.status_code)
         self.assertEqual([], response.data)
+
+
+class RentComicAPIViewTest(APITestCase):
+
+    def test_rent_a_good_comic_with_discount_of_20_percent(self):
+        comic = ComicFactory.create(
+            price=20,
+            status='good'
+        )
+
+        url = '/api/v1/comics/{0}/rent/'.format(comic.id)        
+        uuid = str(uuid4())
+        data = {
+            'id': uuid,
+            'days': 3,
+            'client': "Engel Pinto",
+            'rented_at': datetime(2020, 4, 25)
+        }        
+
+        response = self.client.post(url, data)
+
+        self.assertEqual(status.HTTP_201_CREATED, response.status_code)
+        
