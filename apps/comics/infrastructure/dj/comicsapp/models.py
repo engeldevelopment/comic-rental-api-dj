@@ -52,6 +52,4 @@ class Rent(models.Model):
     def save(self, *args, **kwargs):
         self.amount = self.comic.price_with_discount
         self.price = self.comic.price
-        transform = datetime.strptime(self.rented_at, '%Y-%m-%d %H:%M:%S')
-        self.finished_at = transform  + timedelta(days=int(self.days))
         return super().save(*args, **kwargs)

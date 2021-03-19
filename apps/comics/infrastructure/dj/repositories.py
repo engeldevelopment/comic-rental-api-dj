@@ -23,6 +23,7 @@ class RentDjangoRepository(RentRepository):
             days=rent.days,
             client=rent.client,
             rented_at=rent.rented_at,
+            finished_at=rent.get_finished_at,
             comic=comic
         )
 

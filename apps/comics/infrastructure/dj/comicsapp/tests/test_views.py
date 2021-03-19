@@ -48,8 +48,11 @@ class RentComicAPIViewTest(APITestCase):
         }        
 
         response = self.client.post(url, data)
+        rent = Rent.objects.last()
 
         self.assertEqual(status.HTTP_201_CREATED, response.status_code)
+        self.assertEqual(28, rent.finished_at.day)
+        self.assertEqual(16.0, rent.amount)
         
     def test_when_id_is_not_assined_to_a_comic_give_an_error(self):
         url = '/api/v1/comics/{0}/rent/'.format(100)        

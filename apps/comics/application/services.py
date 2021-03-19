@@ -18,7 +18,7 @@ class ComicRentService:
             days=command.days,
             client=command.client,
             rented_at=command.rented_at,
-            comicId=ComicId(command.comic.id),
+            comicId=ComicId(command.comicId),
         )
 
         if self.repository.save(rent):

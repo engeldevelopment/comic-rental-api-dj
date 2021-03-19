@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from .vo import ComicId
 
 
@@ -18,9 +20,16 @@ class Comic:
 
 
 class Rent:
-    def __init__(self, id, days, client, rented_at, comicId: ComicId):
+    def __init__(self, id, days, client, rented_at, comicId: ComicId, finished_at=None):
         self.id = id
-        self.days = days
+        self.days = int(days)
         self.client = client
         self.rented_at = rented_at
         self.comicId = comicId
+        self.finished_at = finished_at
+
+    @property
+    def get_finished_at(self):
+        transform = datetime.strptime(self.rented_at, '%Y-%m-%d %H:%M:%S')
+        _finished_at = transform + timedelta(days=self.days)
+        return _finished_at

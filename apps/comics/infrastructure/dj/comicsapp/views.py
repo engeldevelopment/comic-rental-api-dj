@@ -40,14 +40,14 @@ class ComicRentAPIView(APIView):
         return super().__init__(*args, **kwargs)
     
     def post(self, request, pk):
-        comic = get_object_or_404(Comic,pk=pk)
+        comic = get_object_or_404(Comic, pk=pk)
 
         command = ComicRentCommand(
             id=request.data['id'],
             days=request.data['days'],
             client=request.data['client'],
             rented_at=request.data['rented_at'],
-            comic=comic
+            comicId=pk
         )
 
         if self.comic_rent_service(command=command):
