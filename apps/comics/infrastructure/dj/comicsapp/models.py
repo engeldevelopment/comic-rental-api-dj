@@ -24,26 +24,15 @@ class Comic(models.Model):
     @property
     def price_with_discount(self):
         discount = 0
-        if self.status == 'good':
-            discount = self.percent_of_discount(
-                percent=20,
-            )
-        elif self.status == 'excelent':
-            discount = self.percent_of_discount(
-                percent=10
-            )
-        elif self.status == 'acceptable':
-            discount = self.percent_of_discount(
-                percent=25
-            )
-        elif self.status == 'impaired':
-            discount = self.percent_of_discount(
-                percent=30
-            )
-        elif self.status == 'damaged':
-            discount = self.percent_of_discount(
-                percent=50
-            )
+        DISCOUNTS = {
+            'excelent': self.percent_of_discount(percent=10),
+            'good': self.percent_of_discount(percent=20),
+            'acceptable': self.percent_of_discount(percent=25),
+            'impaired': self.percent_of_discount(percent=30),
+            'damaged': self.percent_of_discount(percent=50)
+        }
+
+        discount = DISCOUNTS.get(self.status)
         return self.price - discount
     
     def percent_of_discount(self, percent):
