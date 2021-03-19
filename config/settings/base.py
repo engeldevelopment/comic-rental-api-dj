@@ -30,6 +30,10 @@ INSTALLED_APPS += [
     'django_injector',
 ]
 
+INSTALLED_APPS += [
+    'apps.comics.infrastructure.dj.comicsapp',
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -45,7 +49,7 @@ MIDDLEWARE = [
 # Config of Django Injector
 
 INJECTOR_MODULES = [
-
+    'apps.comics.infrastructure.di.modules.ComicModule',
 ]
 
 ROOT_URLCONF = 'config.urls'
