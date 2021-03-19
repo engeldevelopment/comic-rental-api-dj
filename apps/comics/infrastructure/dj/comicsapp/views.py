@@ -1,5 +1,7 @@
 from datetime import date
 
+from django.shortcuts import get_object_or_404
+
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -27,7 +29,7 @@ class ComicListAPIView(generics.ListAPIView):
 
 @api_view(['POST'])
 def rent_comic(request, pk):
-    comic = Comic.objects.get(pk=pk)
+    comic = get_object_or_404(Comic,pk=pk)
 
     rent = Rent(
         id=request.data['id'],

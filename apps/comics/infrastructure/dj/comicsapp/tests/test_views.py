@@ -51,3 +51,15 @@ class RentComicAPIViewTest(APITestCase):
 
         self.assertEqual(status.HTTP_201_CREATED, response.status_code)
         
+    def test_when_id_is_not_assined_to_a_comic_give_an_error(self):
+        url = '/api/v1/comics/{0}/rent/'.format(100)        
+        data = {
+            'id': 'id',
+            'days': 3,
+            'client': "Engel Pinto",
+            'rented_at': datetime(2020, 4, 25)
+        }
+
+        response = self.client.post(url, data)
+
+        self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
