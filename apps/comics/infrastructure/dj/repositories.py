@@ -44,3 +44,16 @@ class RentDjangoRepository(RentRepository):
             return True
         except:
             return False
+
+    def last_rent(self) -> Rent:
+        object = RentModel.objects.last()
+        return Rent(
+            id=object.id,
+            days=object.days,
+            client=object.client,
+            rented_at=object.rented_at,
+            finished_at=object.finished_at,
+            price=object.price,
+            amount=object.amount,
+            comicId=ComicId(object.comic.id)
+        )

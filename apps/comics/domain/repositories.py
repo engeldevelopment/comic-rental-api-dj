@@ -20,3 +20,7 @@ class RentRepository(abc.ABC):
     @abc.abstractmethod
     def save(self, rent: Rent) -> bool:
         pass
+
+    @abc.abstractmethod
+    def last_rent(self) -> Rent:
+        pass

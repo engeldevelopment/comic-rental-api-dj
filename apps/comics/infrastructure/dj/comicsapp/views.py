@@ -9,6 +9,7 @@ from injector import inject
 
 from apps.comics.application.commands import ComicRentCommand
 from apps.comics.application.finders import ComicAllFinder
+from apps.comics.application.finders import LastRentFinder
 from apps.comics.application.services import ComicRentService
 
 from .models import Comic, Rent
@@ -33,10 +34,12 @@ class ComicRentAPIView(APIView):
     def __init__(
         self,
         comic_rent_service: ComicRentService,
+        last_rent_finder: LastRentFinder,
         *args,
         **kwargs
     ):
         self.comic_rent_service = comic_rent_service
+        self.last_rent_finder = last_rent_finder
         return super().__init__(*args, **kwargs)
     
     def post(self, request, pk):
@@ -51,4 +54,8 @@ class ComicRentAPIView(APIView):
         )
 
         if self.comic_rent_service(command=command):
-            return Response(data={}, status=status.HTTP_201_CREATED)
+            new_rent = self.last_rent_finder()
+            return Response(
+                data=new_rent.to_json,
+                status=status.HTTP_201_CREATED
+            )

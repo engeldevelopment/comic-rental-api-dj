@@ -5,7 +5,7 @@ from .vo import ComicId
 
 class Comic:
     def __init__(self, id, name, price, status):
-        self._id = ComicId(id)
+        self._iid = ComicId(id)
         self.name = name
         self.price = price
         self.status = status
@@ -31,3 +31,16 @@ class Rent:
         transform = datetime.strptime(self.rented_at, '%Y-%m-%d %H:%M:%S')
         _finished_at = transform + timedelta(days=self.days)
         return _finished_at
+    
+    @property
+    def to_json(self):
+        return {
+            'id': self.id,
+            'client': self.client,
+            'days': self.days,
+            'price': self.price,
+            'amount': self.amount,
+            'comicId': self.comicId.value,
+            'rented_at': self.rented_at,
+            'finished_at': self.finished_at
+        }
