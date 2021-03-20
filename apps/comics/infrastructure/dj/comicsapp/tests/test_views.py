@@ -52,7 +52,7 @@ class RentComicAPIViewTest(APITestCase):
 
         self.assertEqual(status.HTTP_201_CREATED, response.status_code)
         self.assertDayOfFinishedAtIs(28)
-        self.assertAmountOfRentIs(16.0)
+        self.assertAmountOfRentalIs(16.0)
     
     def test_when_i_do_not_give_an_id_to_the_rent_it_should_also_be_created(self):
         comic = ComicFactory.create(
@@ -75,7 +75,7 @@ class RentComicAPIViewTest(APITestCase):
 
         self.assertEqual(status.HTTP_201_CREATED, response.status_code)
         self.assertDayOfFinishedAtIs(6)
-        self.assertAmountOfRentIs(15.0)
+        self.assertAmountOfRentalIs(15.0)
 
     def test_when_id_is_not_assined_to_a_comic_give_an_error(self):
         data = {
@@ -107,6 +107,6 @@ class RentComicAPIViewTest(APITestCase):
         rent = Rental.objects.last()
         self.assertEqual(day, rent.finished_at.day)
     
-    def assertAmountOfRentIs(self, amount):
+    def assertAmountOfRentalIs(self, amount):
         rent = Rental.objects.last()
         self.assertEqual(amount, rent.amount)
