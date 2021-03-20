@@ -16,7 +16,7 @@ class ComicDjangoRepository(ComicRepository):
         comics = ComicModel.objects.all()
         return comics
     
-    def findById(self, id: ComicId) -> Comic:
+    def findByIdOrFail(self, id: ComicId) -> Comic:
         try:
             object = ComicModel.objects.get(pk=id.value)
             return Comic(

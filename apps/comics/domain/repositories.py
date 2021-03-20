@@ -12,7 +12,7 @@ class ComicRepository(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def findById(self, id: ComicId) -> Comic:
+    def findByIdOrFail(self, id: ComicId) -> Comic:
         pass
 
 

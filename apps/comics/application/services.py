@@ -20,12 +20,9 @@ class ComicRentService:
         self.obtain_amount = obtain_amount
 
     def __call__(self, command: ComicRentCommand):
-        try:
-            comic = self.comic_repository.findById(
-                id=ComicId(command.comicId)
-            )
-        except ComicNotFound as e:
-            raise e
+        comic = self.comic_repository.findByIdOrFail(
+            id=ComicId(command.comicId)
+        )
         
         amount = self.obtain_amount(
             comic=comic
