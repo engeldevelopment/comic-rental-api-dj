@@ -31,38 +31,82 @@ class ComicListAPIViewTest(APITestCase):
 
 
 class RentComicAPIViewTest(APITestCase):
-
     def test_rent_a_good_comic_with_discount_of_20_percent(self):
         comic = ComicFactory.create(
             price=20,
             status='good'
         )
 
-        url = '/api/v1/comics/{0}/rent/'.format(comic.id)        
-        uuid = str(uuid4())
         data = {
-            'id': uuid,
+            'id': self.generate_uuid(),
             'days': 3,
             'client': "Engel Pinto",
             'rented_at': datetime(2020, 4, 25)
         }        
 
-        response = self.client.post(url, data)
+        response = self.do_post_with(
+            id=comic.id,
+            data=data
+        )
         rent = Rent.objects.last()
 
         self.assertEqual(status.HTTP_201_CREATED, response.status_code)
-        self.assertEqual(28, rent.finished_at.day)
-        self.assertEqual(16.0, rent.amount)
-        
-    def test_when_id_is_not_assined_to_a_comic_give_an_error(self):
-        url = '/api/v1/comics/{0}/rent/'.format(100)        
+        self.assertDayOfFinishedAtIs(28)
+        self.assertAmountOfRentIs(16.0)
+    
+    def test_when_i_do_not_give_an_id_to_the_rent_it_should_also_be_created(self):
+        comic = ComicFactory.create(
+            price=20,
+            status='acceptable'
+        )
+
         data = {
-            'id': 'id',
+            'days': 2,
+            'client': "Javier Ortiz",
+            'rented_at': datetime(2020, 12, 4)
+        }
+
+        response = self.do_post_with(
+            id=comic.id,
+            data=data
+        )
+
+        rent = Rent.objects.last()
+
+        self.assertEqual(status.HTTP_201_CREATED, response.status_code)
+        self.assertDayOfFinishedAtIs(6)
+        self.assertAmountOfRentIs(15.0)
+
+    def test_when_id_is_not_assined_to_a_comic_give_an_error(self):
+        data = {
             'days': 3,
             'client': "Engel Pinto",
             'rented_at': datetime(2020, 4, 25)
         }
 
-        response = self.client.post(url, data)
+        response = self.do_post_with(
+            id=0,
+            data=data
+        )
 
         self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
+
+    def generate_url(self, for_id):
+        return '/api/v1/comics/{0}/rent/'.format(for_id)
+    
+    def generate_uuid(self):
+        return uuid4()
+    
+    def do_post_with(self, id, data):
+        return self.client.post(
+            self.generate_url(id),
+            data
+        )
+    
+    def assertDayOfFinishedAtIs(self, day):
+        rent = Rent.objects.last()
+        self.assertEqual(day, rent.finished_at.day)
+    
+    def assertAmountOfRentIs(self, amount):
+        rent = Rent.objects.last()
+        self.assertEqual(amount, rent.amount)

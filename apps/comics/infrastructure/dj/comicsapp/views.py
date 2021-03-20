@@ -46,7 +46,7 @@ class ComicRentAPIView(APIView):
         comic = get_object_or_404(Comic, pk=pk)
 
         command = ComicRentCommand(
-            id=request.data['id'],
+            id=request.data.get('id', None),
             days=request.data['days'],
             client=request.data['client'],
             rented_at=request.data['rented_at'],
