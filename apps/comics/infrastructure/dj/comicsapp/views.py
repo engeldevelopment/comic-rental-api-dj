@@ -1,5 +1,3 @@
-from django.shortcuts import get_object_or_404
-
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -7,7 +5,7 @@ from rest_framework import status
 
 from injector import inject
 
-from apps.comics.application.commands import ComicRentCommand
+from apps.comics.application.commands import RentComicCommand
 from apps.comics.application.finders import ComicAllFinder
 from apps.comics.application.services import RentComicService
 from apps.comics.domain.exceptions import ComicNotFound
@@ -41,7 +39,7 @@ class ComicRentAPIView(APIView):
         return super().__init__(*args, **kwargs)
     
     def post(self, request, pk):
-        command = ComicRentCommand(
+        command = RentComicCommand(
             id=request.data.get('id', None),
             days=request.data['days'],
             client=request.data['client'],

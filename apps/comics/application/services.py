@@ -1,6 +1,6 @@
 from injector import inject
 
-from ..application.commands import ComicRentCommand
+from ..application.commands import RentComicCommand
 from ..application.finders import LastRentFinder
 from ..domain.entities import Rent
 from ..domain.exceptions import ComicNotFound
@@ -15,19 +15,19 @@ class RentComicService:
         comic_repository: ComicRepository,
         rent_repository: RentRepository,
         last_rent_finder: LastRentFinder,
-        obtain_amount: ObtainAmountToPayService
+        obtain_amount_to_pay: ObtainAmountToPayService
     ):
         self.comic_repository = comic_repository
         self.rent_repository = rent_repository
         self.last_rent_finder = last_rent_finder
-        self.obtain_amount = obtain_amount
+        self.obtain_amount_to_pay = obtain_amount_to_pay
 
-    def __call__(self, command: ComicRentCommand):
+    def __call__(self, command: RentComicCommand):
         comic = self.comic_repository.findByIdOrFail(
             id=ComicId(command.comicId)
         )
         
-        amount = self.obtain_amount(
+        amount = self.obtain_amount_to_pay(
             comic=comic
         )
 

@@ -1,4 +1,4 @@
-class ComicRentCommand:
+class RentComicCommand:
 
     def __init__(self, id, days, client, rented_at, comicId):
         self.id = id
