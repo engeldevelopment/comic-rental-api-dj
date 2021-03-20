@@ -10,7 +10,7 @@ from injector import inject
 from apps.comics.application.commands import ComicRentCommand
 from apps.comics.application.finders import ComicAllFinder
 from apps.comics.application.finders import LastRentFinder
-from apps.comics.application.services import ComicRentService
+from apps.comics.application.services import RentComicService
 from apps.comics.domain.exceptions import ComicNotFound
 
 from .models import Comic, Rent
@@ -34,7 +34,7 @@ class ComicRentAPIView(APIView):
     @inject
     def __init__(
         self,
-        comic_rent_service: ComicRentService,
+        comic_rent_service: RentComicService,
         last_rent_finder: LastRentFinder,
         *args,
         **kwargs

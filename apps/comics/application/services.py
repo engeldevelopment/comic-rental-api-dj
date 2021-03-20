@@ -8,7 +8,7 @@ from ..domain.repositories import ComicRepository, RentRepository
 from ..domain.vo import ComicId
 
 
-class ComicRentService:
+class RentComicService:
     @inject
     def __init__(self,
         comic_repository: ComicRepository,

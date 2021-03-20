@@ -44,11 +44,7 @@ class RentDjangoRepository(RentRepository):
             comic=comic
         )
 
-        try:
-            object.save()
-            return True
-        except:
-            return False
+        object.save()
 
     def last_rent(self) -> Rent:
         object = RentModel.objects.last()
