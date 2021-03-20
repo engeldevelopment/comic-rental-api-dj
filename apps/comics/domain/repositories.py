@@ -2,7 +2,7 @@ import abc
 
 from typing import List
 
-from .entities import Comic, Rent
+from .entities import Comic, Rental
 from .vo import ComicId
 
 
@@ -16,11 +16,11 @@ class ComicRepository(abc.ABC):
         pass
 
 
-class RentRepository(abc.ABC):
+class RentalRepository(abc.ABC):
     @abc.abstractmethod
-    def save(self, rent: Rent) -> bool:
+    def save(self, rental: Rental) -> bool:
         pass
 
     @abc.abstractmethod
-    def last_rent(self) -> Rent:
+    def last_rental(self) -> Rental:
         pass

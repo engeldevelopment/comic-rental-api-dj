@@ -10,7 +10,7 @@ from apps.comics.application.finders import ComicAllFinder
 from apps.comics.application.services import RentComicService
 from apps.comics.domain.exceptions import ComicNotFound
 
-from .models import Comic, Rent
+from .models import Comic
 from .serializers import ComicSerializer
 
 

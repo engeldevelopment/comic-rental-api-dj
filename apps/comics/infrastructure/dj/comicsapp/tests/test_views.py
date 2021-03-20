@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from ..factories import ComicFactory
-from ..models import Rent
+from ..models import Rental
 
 
 class ComicListAPIViewTest(APITestCase):
@@ -48,7 +48,7 @@ class RentComicAPIViewTest(APITestCase):
             id=comic.id,
             data=data
         )
-        rent = Rent.objects.last()
+        rent = Rental.objects.last()
 
         self.assertEqual(status.HTTP_201_CREATED, response.status_code)
         self.assertDayOfFinishedAtIs(28)
@@ -71,7 +71,7 @@ class RentComicAPIViewTest(APITestCase):
             data=data
         )
 
-        rent = Rent.objects.last()
+        rent = Rental.objects.last()
 
         self.assertEqual(status.HTTP_201_CREATED, response.status_code)
         self.assertDayOfFinishedAtIs(6)
@@ -104,9 +104,9 @@ class RentComicAPIViewTest(APITestCase):
         )
     
     def assertDayOfFinishedAtIs(self, day):
-        rent = Rent.objects.last()
+        rent = Rental.objects.last()
         self.assertEqual(day, rent.finished_at.day)
     
     def assertAmountOfRentIs(self, amount):
-        rent = Rent.objects.last()
+        rent = Rental.objects.last()
         self.assertEqual(amount, rent.amount)

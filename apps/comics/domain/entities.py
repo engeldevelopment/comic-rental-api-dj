@@ -17,7 +17,7 @@ class Comic:
         return self._id.value
     
 
-class Rent:
+class Rental:
     def __init__(self, id, days, client, rented_at, comicId: ComicId, finished_at=None, price=None, amount=None):
         self.id = self.generate_uuid(id)
         self.days = int(days)

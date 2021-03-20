@@ -22,7 +22,7 @@ class Comic(models.Model):
         return self.name
 
 
-class Rent(models.Model):
+class Rental(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     days = models.PositiveIntegerField() 
     client = models.CharField(max_length=80)

@@ -1,12 +1,12 @@
 from typing import List
 
-from apps.comics.domain.entities import Comic, Rent
+from apps.comics.domain.entities import Comic, Rental
 from apps.comics.domain.exceptions import ComicNotFound
-from apps.comics.domain.repositories import ComicRepository, RentRepository
+from apps.comics.domain.repositories import ComicRepository, RentalRepository
 from apps.comics.domain.vo import ComicId
 
 from .comicsapp.models import Comic as ComicModel
-from .comicsapp.models import Rent as RentModel
+from .comicsapp.models import Rental as RentalModel
 
 
 
@@ -29,11 +29,11 @@ class ComicDjangoRepository(ComicRepository):
             raise ComicNotFound
 
 
-class RentDjangoRepository(RentRepository):
+class RentalDjangoRepository(RentalRepository):
 
-    def save(self, rent: Rent) -> bool:
+    def save(self, rent: Rental) -> bool:
         comic = ComicModel.objects.get(pk=rent.comicId.value)
-        object = RentModel(
+        object = RentalModel(
             id=rent.id,
             days=rent.days,
             price=comic.price,
@@ -46,9 +46,9 @@ class RentDjangoRepository(RentRepository):
 
         object.save()
 
-    def last_rent(self) -> Rent:
-        object = RentModel.objects.last()
-        return Rent(
+    def last_rental(self) -> Rental:
+        object = RentalModel.objects.last()
+        return Rental(
             id=object.id,
             days=object.days,
             client=object.client,

@@ -1,11 +1,11 @@
 from injector import inject
 
 from ..application.commands import RentComicCommand
-from ..application.finders import LastRentFinder
-from ..domain.entities import Rent
+from ..application.finders import LastRentalFinder
+from ..domain.entities import Rental
 from ..domain.exceptions import ComicNotFound
 from ..domain.services import ObtainAmountToPayService
-from ..domain.repositories import ComicRepository, RentRepository
+from ..domain.repositories import ComicRepository, RentalRepository
 from ..domain.vo import ComicId
 
 
@@ -13,13 +13,13 @@ class RentComicService:
     @inject
     def __init__(self,
         comic_repository: ComicRepository,
-        rent_repository: RentRepository,
-        last_rent_finder: LastRentFinder,
+        rental_repository: RentalRepository,
+        last_rental_finder: LastRentalFinder,
         obtain_amount_to_pay: ObtainAmountToPayService
     ):
         self.comic_repository = comic_repository
-        self.rent_repository = rent_repository
-        self.last_rent_finder = last_rent_finder
+        self.rental_repository = rental_repository
+        self.last_rental_finder = last_rental_finder
         self.obtain_amount_to_pay = obtain_amount_to_pay
 
     def __call__(self, command: RentComicCommand):
@@ -31,7 +31,7 @@ class RentComicService:
             comic=comic
         )
 
-        rent = Rent(
+        rent = Rental(
             id=command.id,
             days=command.days,
             client=command.client,
@@ -40,5 +40,5 @@ class RentComicService:
             amount=amount
         )
 
-        self.rent_repository.save(rent)
-        return self.last_rent_finder()
+        self.rental_repository.save(rent)
+        return self.last_rental_finder()
