@@ -1,25 +1,34 @@
 from injector import inject
 
 from ..application.commands import ComicRentCommand
-from ..domain.repositories import RentRepository
-
 from ..domain.entities import Rent
+from ..domain.exceptions import ComicNotFound
 from ..domain.services import ObtainAmountToPayService
+from ..domain.repositories import ComicRepository, RentRepository
 from ..domain.vo import ComicId
 
 
 class ComicRentService:
     @inject
     def __init__(self,
-        repository: RentRepository,
+        comic_repository: ComicRepository,
+        rent_repository: RentRepository,
         obtain_amount: ObtainAmountToPayService
     ):
-        self.repository = repository
+        self.comic_repository = comic_repository
+        self.rent_repository = rent_repository
         self.obtain_amount = obtain_amount
 
     def __call__(self, command: ComicRentCommand):
+        try:
+            comic = self.comic_repository.findById(
+                id=ComicId(command.comicId)
+            )
+        except ComicNotFound as e:
+            raise e
+        
         amount = self.obtain_amount(
-            comicId=ComicId(command.comicId)
+            comic=comic
         )
 
         rent = Rent(
@@ -31,5 +40,4 @@ class ComicRentService:
             amount=amount
         )
 
-        if self.repository.save(rent):
-            return True
+        self.rent_repository.save(rent)

@@ -1,11 +1,13 @@
 from typing import List
 
 from apps.comics.domain.entities import Comic, Rent
+from apps.comics.domain.exceptions import ComicNotFound
 from apps.comics.domain.repositories import ComicRepository, RentRepository
 from apps.comics.domain.vo import ComicId
 
 from .comicsapp.models import Comic as ComicModel
 from .comicsapp.models import Rent as RentModel
+
 
 
 class ComicDjangoRepository(ComicRepository):
@@ -15,13 +17,16 @@ class ComicDjangoRepository(ComicRepository):
         return comics
     
     def findById(self, id: ComicId) -> Comic:
-        object = ComicModel.objects.get(pk=id.value)
-        return Comic(
-            id=object.id,
-            name=object.name,
-            price=object.price,
-            status=object.status
-        )
+        try:
+            object = ComicModel.objects.get(pk=id.value)
+            return Comic(
+                id=object.id,
+                name=object.name,
+                price=object.price,
+                status=object.status
+            )
+        except ComicModel.DoesNotExist:
+            raise ComicNotFound
 
 
 class RentDjangoRepository(RentRepository):

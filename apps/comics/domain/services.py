@@ -20,8 +20,7 @@ class ObtainAmountToPayService:
         self.repository = repository
         self.percent_of_discount = percent_of_discount
     
-    def __call__(self, comicId: ComicId):
-        comic = self.repository.findById(id=comicId)
+    def __call__(self, comic: Comic):
         discount = 0
         DISCOUNTS = {
             'excelent': self.percent_of_discount(price=comic.price, percent=10),

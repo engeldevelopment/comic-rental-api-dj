@@ -1,0 +1,2 @@
+class ComicNotFound(Exception):
+    pass

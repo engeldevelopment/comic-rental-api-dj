@@ -11,6 +11,7 @@ from apps.comics.application.commands import ComicRentCommand
 from apps.comics.application.finders import ComicAllFinder
 from apps.comics.application.finders import LastRentFinder
 from apps.comics.application.services import ComicRentService
+from apps.comics.domain.exceptions import ComicNotFound
 
 from .models import Comic, Rent
 from .serializers import ComicSerializer
@@ -43,8 +44,6 @@ class ComicRentAPIView(APIView):
         return super().__init__(*args, **kwargs)
     
     def post(self, request, pk):
-        comic = get_object_or_404(Comic, pk=pk)
-
         command = ComicRentCommand(
             id=request.data.get('id', None),
             days=request.data['days'],
@@ -53,9 +52,12 @@ class ComicRentAPIView(APIView):
             comicId=pk
         )
 
-        if self.comic_rent_service(command=command):
+        try:
+            self.comic_rent_service(command=command)
             new_rent = self.last_rent_finder()
             return Response(
                 data=new_rent.to_json,
                 status=status.HTTP_201_CREATED
             )
+        except ComicNotFound:
+            return Response(status=status.HTTP_404_NOT_FOUND)
