@@ -7,7 +7,7 @@ class Discount:
         self.percentage = 0
 
     @classmethod
-    def forThis(cls, comic: Comic):
+    def for_this(cls, comic: Comic):
         return cls(comic=comic)
 
     def apply(self):
@@ -16,7 +16,8 @@ class Discount:
             percent=self.percentage
         )
 
-    def obtain_percentage(self, price, percent):
+    @staticmethod
+    def obtain_percentage(price, percent):
         return (price * percent) / 100
 
 

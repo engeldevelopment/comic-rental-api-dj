@@ -18,12 +18,12 @@ class Comic:
     
 
 class Rental:
-    def __init__(self, id, days, client, rented_at, comicId: ComicId, finished_at=None, price=None, amount=None):
+    def __init__(self, id, days, client, rented_at, comic_id: ComicId, finished_at=None, price=None, amount=None):
         self.id = self.generate_uuid(id)
         self.days = int(days)
         self.client = client
         self.rented_at = rented_at
-        self.comicId = comicId
+        self.comicId = comic_id
         self.finished_at = finished_at
         self.price = price
         self.amount = amount

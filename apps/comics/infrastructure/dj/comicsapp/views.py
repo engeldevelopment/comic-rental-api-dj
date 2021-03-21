@@ -10,7 +10,6 @@ from apps.comics.application.finders import ComicAllFinder
 from apps.comics.application.services import RentComicService
 from apps.comics.domain.exceptions import ComicNotFound
 
-from .models import Comic
 from .serializers import ComicSerializer
 
 
@@ -18,9 +17,9 @@ class ComicListAPIView(generics.ListAPIView):
     serializer_class = ComicSerializer
 
     @inject
-    def __init__(self, finder: ComicAllFinder, *args, **kwargs):
+    def __init__(self, finder: ComicAllFinder, **kwargs):
+        super().__init__(**kwargs)
         self.finder = finder
-        return super().__init__(*args, **kwargs)
 
     def get_queryset(self):
         return self.finder()
@@ -29,22 +28,17 @@ class ComicListAPIView(generics.ListAPIView):
 class ComicRentAPIView(APIView):
 
     @inject
-    def __init__(
-        self,
-        rent_comic_service: RentComicService,
-        *args,
-        **kwargs
-    ):
+    def __init__(self, rent_comic_service: RentComicService, **kwargs):
+        super().__init__(**kwargs)
         self.rent_comic_service = rent_comic_service
-        return super().__init__(*args, **kwargs)
-    
+
     def post(self, request, pk):
         command = RentComicCommand(
             id=request.data.get('id', None),
             days=request.data['days'],
             client=request.data['client'],
             rented_at=request.data['rented_at'],
-            comicId=pk
+            comic_id=pk
         )
 
         try:

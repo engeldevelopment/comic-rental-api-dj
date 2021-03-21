@@ -9,14 +9,13 @@ from .comicsapp.models import Comic as ComicModel
 from .comicsapp.models import Rental as RentalModel
 
 
-
 class ComicDjangoRepository(ComicRepository):
 
     def all(self) -> List[Comic]:
         comics = ComicModel.objects.all()
         return comics
     
-    def findByIdOrFail(self, id: ComicId) -> Comic:
+    def find_by_id_or_fail(self, id: ComicId) -> Comic:
         try:
             object = ComicModel.objects.get(pk=id.value)
             return Comic(
@@ -56,5 +55,5 @@ class RentalDjangoRepository(RentalRepository):
             finished_at=object.finished_at,
             price=object.price,
             amount=object.amount,
-            comicId=ComicId(object.comic.id)
+            comic_id=ComicId(object.comic.id)
         )
