@@ -2,6 +2,7 @@ from unittest import TestCase
 
 from apps.comics.domain.entities import Comic
 from apps.comics.domain.services import ObtainAmountToPayService
+from apps.comics.domain.vo import ComicStatus
 
 
 class ObtainAmountToPayServiceTest(TestCase):
@@ -13,12 +14,12 @@ class ObtainAmountToPayServiceTest(TestCase):
     def assertThatAmountToPayIs(self, amount):
         self.assertEqual(amount, self.obtain_amount_to_pay(self.comic))
 
-    def test_excelent_comic_obtain_20_percentage_of_discount(self):
+    def test_excellent_comic_obtain_20_percentage_of_discount(self):
         self.comic = Comic(
             id=12,
             name="One Punch Man",
             price=20.0,
-            status='excelent'
+            status=ComicStatus.EXCELLENT.value
         )
 
         self.assertThatAmountToPayIs(18.0)
@@ -28,7 +29,7 @@ class ObtainAmountToPayServiceTest(TestCase):
             id=12,
             name="One Punch Man",
             price=20.0,
-            status='good'
+            status=ComicStatus.GOOD.value
         )
 
         self.assertThatAmountToPayIs(16.0)
@@ -38,17 +39,17 @@ class ObtainAmountToPayServiceTest(TestCase):
             id=12,
             name="One Punch Man",
             price=20.0,
-            status='acceptable'
+            status=ComicStatus.ACCEPTABLE.value
         )
 
         self.assertThatAmountToPayIs(15.0)        
 
-    def test_imapaired_comic_obtain_30_percentage_of_discount(self):
+    def test_impaired_comic_obtain_30_percentage_of_discount(self):
         self.comic = Comic(
             id=12,
             name="One Punch Man",
             price=20.0,
-            status='impaired'
+            status=ComicStatus.IMPAIRED.value
         )
 
         self.assertThatAmountToPayIs(14.0)        
@@ -58,7 +59,7 @@ class ObtainAmountToPayServiceTest(TestCase):
             id=12,
             name="One Punch Man",
             price=20.0,
-            status='damaged'
+            status=ComicStatus.DAMAGED.value
         )
 
         self.assertThatAmountToPayIs(10.0)

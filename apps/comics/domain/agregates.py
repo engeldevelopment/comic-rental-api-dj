@@ -21,7 +21,7 @@ class Discount:
         return (price * percent) / 100
 
 
-class ExcelentComicDiscount(Discount):
+class ExcellentComicDiscount(Discount):
     def __init__(self, comic: Comic):
         super().__init__(comic)
         self.percentage = 10

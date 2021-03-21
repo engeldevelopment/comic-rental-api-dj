@@ -1,17 +1,17 @@
-from datetime import datetime, timedelta
-
 import uuid
 
 from django.db import models
 
+from apps.comics.domain.vo import ComicStatus
 
 COMIC_STATUS = (
-    ('excelent', 'Excelente'),
-    ('good', 'Buena'),
-    ('acceptable', 'Aceptable'),
-    ('damaged', 'Deteriorada'),
-    ('impaired', 'Dañada'),
+    (ComicStatus.EXCELLENT.value, 'Excelente'),
+    (ComicStatus.GOOD.value, 'Buena'),
+    (ComicStatus.ACCEPTABLE.value, 'Aceptable'),
+    (ComicStatus.IMPAIRED.value, 'Deteriorada'),
+    (ComicStatus.DAMAGED.value, 'Dañada'),
 )
+
 
 class Comic(models.Model):
     name = models.CharField(max_length=100, unique=True)

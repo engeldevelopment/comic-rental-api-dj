@@ -5,6 +5,7 @@ from uuid import uuid4
 from rest_framework import status
 from rest_framework.test import APITestCase
 
+from apps.comics.domain.vo import ComicStatus
 from ..factories import ComicFactory
 from ..models import Rental
 
@@ -34,7 +35,7 @@ class RentComicAPIViewTest(APITestCase):
     def test_rent_a_good_comic_with_discount_of_20_percent(self):
         comic = ComicFactory.create(
             price=20,
-            status='good'
+            status=ComicStatus.GOOD.value
         )
 
         data = {
@@ -48,7 +49,6 @@ class RentComicAPIViewTest(APITestCase):
             id=comic.id,
             data=data
         )
-        rent = Rental.objects.last()
 
         self.assertEqual(status.HTTP_201_CREATED, response.status_code)
         self.assertDayOfFinishedAtIs(28)
@@ -57,7 +57,7 @@ class RentComicAPIViewTest(APITestCase):
     def test_when_i_do_not_give_an_id_to_the_rent_it_should_also_be_created(self):
         comic = ComicFactory.create(
             price=20,
-            status='acceptable'
+            status=ComicStatus.ACCEPTABLE.value
         )
 
         data = {
@@ -71,13 +71,11 @@ class RentComicAPIViewTest(APITestCase):
             data=data
         )
 
-        rent = Rental.objects.last()
-
         self.assertEqual(status.HTTP_201_CREATED, response.status_code)
         self.assertDayOfFinishedAtIs(6)
         self.assertAmountOfRentalIs(15.0)
 
-    def test_when_id_is_not_assined_to_a_comic_give_an_error(self):
+    def test_when_id_is_not_assigned_to_a_comic_give_an_error(self):
         data = {
             'days': 3,
             'client': "Engel Pinto",
@@ -91,10 +89,12 @@ class RentComicAPIViewTest(APITestCase):
 
         self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
 
-    def generate_url(self, for_id):
+    @staticmethod
+    def generate_url(for_id):
         return '/api/v1/comics/{0}/rent/'.format(for_id)
     
-    def generate_uuid(self):
+    @staticmethod
+    def generate_uuid():
         return uuid4()
     
     def do_post_with(self, id, data):
