@@ -4,7 +4,7 @@ from .entities import Comic
 class Discount:
     def __init__(self, comic: Comic):
         self.comic = comic
-        self.percentage = 0
+        self.percentage_of_discount = 0
 
     @classmethod
     def for_this(cls, comic: Comic):
@@ -13,7 +13,7 @@ class Discount:
     def apply(self):
         return self.obtain_percentage(
             price=self.comic.price,
-            percent=self.percentage
+            percent=self.percentage_of_discount
         )
 
     @staticmethod
@@ -24,28 +24,28 @@ class Discount:
 class ExcellentComicDiscount(Discount):
     def __init__(self, comic: Comic):
         super().__init__(comic)
-        self.percentage = 10
+        self.percentage_of_discount = 10
 
 
 class GoodComicDiscount(Discount):
     def __init__(self, comic: Comic):
         super().__init__(comic)
-        self.percentage = 20
+        self.percentage_of_discount = 20
 
 
 class AcceptableComicDiscount(Discount):
     def __init__(self, comic: Comic):
         super().__init__(comic)
-        self.percentage = 25
+        self.percentage_of_discount = 25
 
 
 class ImpairedComicDiscount(Discount):
     def __init__(self, comic: Comic):
         super().__init__(comic)
-        self.percentage = 30
+        self.percentage_of_discount = 30
 
 
 class DamagedComicDiscount(Discount):
     def __init__(self, comic: Comic):
         super().__init__(comic)
-        self.percentage = 50
+        self.percentage_of_discount = 50
