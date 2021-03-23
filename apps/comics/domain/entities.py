@@ -2,11 +2,11 @@ from datetime import datetime, timedelta
 
 import uuid
 
-from .vo import ComicId
+from .vo import ComicId, ComicStatus
 
 
 class Comic:
-    def __init__(self, id, name, price, status):
+    def __init__(self, id, name, price, status: ComicStatus):
         self._id = ComicId(id)
         self.name = name
         self.price = price

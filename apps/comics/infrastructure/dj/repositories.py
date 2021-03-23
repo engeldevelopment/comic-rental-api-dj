@@ -3,7 +3,7 @@ from typing import List
 from apps.comics.domain.entities import Comic, Rental
 from apps.comics.domain.exceptions import ComicNotFound
 from apps.comics.domain.repositories import ComicRepository, RentalRepository
-from apps.comics.domain.vo import ComicId
+from apps.comics.domain.vo import ComicId, ComicStatus
 
 from .comicsapp.models import Comic as ComicModel
 from .comicsapp.models import Rental as RentalModel
@@ -22,7 +22,7 @@ class ComicDjangoRepository(ComicRepository):
                 id=object.id,
                 name=object.name,
                 price=object.price,
-                status=object.status
+                status=ComicStatus(value=object.status)
             )
         except ComicModel.DoesNotExist:
             raise ComicNotFound

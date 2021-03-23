@@ -19,7 +19,7 @@ class ObtainAmountToPayServiceTest(TestCase):
     def test_excellent_comic_obtain_10_percentage_of_discount(self):
         self.comic = ComicFactory(
             price=20.0,
-            status=ComicStatus.EXCELLENT.value
+            status=ComicStatus.EXCELLENT
         )
 
         self.assertThatAmountToPayIs(18.0)
@@ -27,7 +27,7 @@ class ObtainAmountToPayServiceTest(TestCase):
     def test_good_comic_obtain_20_percentage_of_discount(self):
         self.comic = ComicFactory(
             price=20.0,
-            status=ComicStatus.GOOD.value
+            status=ComicStatus.GOOD
         )
 
         self.assertThatAmountToPayIs(16.0)
@@ -35,7 +35,7 @@ class ObtainAmountToPayServiceTest(TestCase):
     def test_acceptable_comic_obtain_25_percentage_of_discount(self):
         self.comic = ComicFactory(
             price=20.0,
-            status=ComicStatus.ACCEPTABLE.value
+            status=ComicStatus.ACCEPTABLE
         )
 
         self.assertThatAmountToPayIs(15.0)        
@@ -43,7 +43,7 @@ class ObtainAmountToPayServiceTest(TestCase):
     def test_impaired_comic_obtain_30_percentage_of_discount(self):
         self.comic = ComicFactory(
             price=20.0,
-            status=ComicStatus.IMPAIRED.value
+            status=ComicStatus.IMPAIRED
         )
 
         self.assertThatAmountToPayIs(14.0)        
@@ -51,7 +51,7 @@ class ObtainAmountToPayServiceTest(TestCase):
     def test_damaged_comic_obtain_50_percentage_of_discount(self):
         self.comic = ComicFactory(
             price=20.0,
-            status=ComicStatus.DAMAGED.value
+            status=ComicStatus.DAMAGED
         )
 
         self.assertThatAmountToPayIs(10.0)
