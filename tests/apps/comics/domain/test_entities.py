@@ -1,7 +1,8 @@
 from unittest import TestCase
 
+from apps.comics.domain.exceptions import InvalidDays
 from apps.comics.domain.vo import ComicStatus
-from tests.apps.comics.factories import ComicFactory
+from tests.apps.comics.factories import ComicFactory, RentalFactory
 
 
 class ComicTest(TestCase):
@@ -40,3 +41,31 @@ class ComicTest(TestCase):
             status=ComicStatus(value='damaged')
         )
         self.assertThatStatusIs(ComicStatus.DAMAGED)
+
+
+class RentalTest(TestCase):
+    def test_invalid_negative_days(self):
+        with self.assertRaises(InvalidDays):
+            RentalFactory(
+                days="-12",
+            )
+
+    def test_invalid_zero_days(self):
+        with self.assertRaises(InvalidDays):
+            RentalFactory(
+                days="0",
+            )
+
+    def test_invalid_none_days(self):
+        with self.assertRaises(InvalidDays) as e:
+            RentalFactory(
+                days=None,
+            )
+            self.assertEqual("Days is required.", str(e))
+
+    def test_empty_days(self):
+        with self.assertRaises(InvalidDays) as e:
+            RentalFactory(
+                days=""
+            )
+            self.assertEqual("This is a not number ''.", str(e))

@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 import uuid
 
-from .vo import ComicId, ComicStatus
+from .vo import ComicId, ComicStatus, Days
 
 
 class Comic:
@@ -15,12 +15,20 @@ class Comic:
     @property
     def id(self):
         return self._id.value
-    
+
 
 class Rental:
-    def __init__(self, id, days, client, rented_at, comic_id: ComicId, finished_at=None, price=None, amount=None):
+    def __init__(self,
+                 days,
+                 client,
+                 rented_at,
+                 comic_id: ComicId,
+                 id=None,
+                 finished_at=None,
+                 price=None,
+                 amount=None):
         self.id = self.generate_uuid(id)
-        self.days = int(days)
+        self._days = Days(days)
         self.client = client
         self.rented_at = rented_at
         self.comicId = comic_id
@@ -33,6 +41,10 @@ class Rental:
         if id is None:
             generated_id = uuid.uuid4()
         return generated_id
+
+    @property
+    def days(self):
+        return self._days.value
 
     @property
     def get_finished_at(self):

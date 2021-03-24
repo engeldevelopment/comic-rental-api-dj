@@ -32,6 +32,9 @@ class ComicListAPIViewTest(APITestCase):
 
 
 class RentComicAPIViewTest(APITestCase):
+    def setUp(self):
+        self.comic = ComicFactory(name='A Comic')
+
     def test_rent_a_good_comic_with_discount_of_20_percent(self):
         comic = ComicFactory.create(
             price=20,
@@ -40,7 +43,7 @@ class RentComicAPIViewTest(APITestCase):
 
         data = {
             'id': self.generate_uuid(),
-            'days': 3,
+            'days': "3",
             'client': "Engel Pinto",
             'rented_at': datetime(2020, 4, 25)
         }        
@@ -61,7 +64,7 @@ class RentComicAPIViewTest(APITestCase):
         )
 
         data = {
-            'days': 2,
+            'days': "2",
             'client': "Javier Ortiz",
             'rented_at': datetime(2020, 12, 4)
         }
@@ -77,7 +80,7 @@ class RentComicAPIViewTest(APITestCase):
 
     def test_when_id_is_not_assigned_to_a_comic_give_an_error(self):
         data = {
-            'days': 3,
+            'days': "3",
             'client': "Engel Pinto",
             'rented_at': datetime(2020, 4, 25)
         }
@@ -88,6 +91,21 @@ class RentComicAPIViewTest(APITestCase):
         )
 
         self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
+
+    def test_when_the_days_to_be_negative_should_give_an_error(self):
+        data = {
+            'days': "-3",
+            'client': "Engel Pinto",
+            'rented_at': datetime(2020, 4, 25)
+        }
+
+        response = self.do_post_with(
+            id=self.comic.id,
+            data=data
+        )
+
+        self.assertEqual(status.HTTP_400_BAD_REQUEST, response.status_code)
+        self.assertEqual("This is not a valid days '-3'.", response.data['message'])
 
     @staticmethod
     def generate_url(for_id):
