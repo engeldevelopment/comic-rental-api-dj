@@ -21,3 +21,7 @@ class ComicFormTest(TestCase):
         self.data['price'] = "0.0"
         form = ComicForm(self.data)
         self.assertFalse(form.is_valid())
+
+    def test_with_valid_price_should_be_valid(self):
+        form = ComicForm(self.data)
+        self.assertTrue(form.is_valid())
