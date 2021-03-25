@@ -1,3 +1,5 @@
+import uuid
+
 from . import agregates
 from .entities import Comic
 from .vo import ComicStatus
