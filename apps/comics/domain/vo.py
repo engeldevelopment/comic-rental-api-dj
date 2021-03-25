@@ -1,5 +1,6 @@
 import re
 import uuid
+from datetime import datetime
 from enum import Enum
 from dataclasses import dataclass
 
@@ -36,4 +37,11 @@ class UUID:
     def __init__(self, value):
         if value is None:
             value = uuid.uuid4()
+        self.value = value
+
+
+class RentedAt:
+    def __init__(self, value):
+        if value is None:
+            value = datetime.now()
         self.value = value

@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from .vo import ComicId, ComicStatus, Days, UUID
+from .vo import ComicId, ComicStatus, Days, UUID, RentedAt
 
 
 class Comic:
@@ -28,9 +28,7 @@ class Rental:
         self._id = UUID(id)
         self._days = Days(days)
         self.client = client
-        if rented_at is None:
-            rented_at = datetime.now()
-        self.rented_at = rented_at
+        self._rented_at = RentedAt(rented_at)
         self.comicId = comic_id
         self.finished_at = finished_at
         self.price = price
@@ -39,6 +37,10 @@ class Rental:
     @property
     def days(self):
         return self._days.value
+
+    @property
+    def rented_at(self):
+        return self._rented_at.value
 
     @property
     def id(self):
