@@ -78,11 +78,29 @@ class RentComicAPIViewTest(APITestCase):
         self.assertDayOfFinishedAtIs(6)
         self.assertAmountOfRentalIs(15.0)
 
+    def test_when_i_do_not_give_an_id_and_rented_at_to_the_rent_it_should_also_be_created(self):
+        comic = ComicFactory.create(
+            price=20,
+            status=ComicStatus.ACCEPTABLE.value
+        )
+
+        data = {
+            'days': "2",
+            'client': "Javier Ortiz",
+        }
+
+        response = self.do_post_with(
+            id=comic.id,
+            data=data
+        )
+
+        self.assertEqual(status.HTTP_201_CREATED, response.status_code)
+        self.assertAmountOfRentalIs(15.0)
+
     def test_when_id_is_not_assigned_to_a_comic_give_an_error(self):
         data = {
             'days': "3",
-            'client': "Engel Pinto",
-            'rented_at': datetime(2020, 4, 25)
+            'client': "Engel Pinto"
         }
 
         response = self.do_post_with(
@@ -95,8 +113,7 @@ class RentComicAPIViewTest(APITestCase):
     def test_when_the_days_to_be_negative_should_give_an_error(self):
         data = {
             'days': "-3",
-            'client': "Engel Pinto",
-            'rented_at': datetime(2020, 4, 25)
+            'client': "Engel Pinto"
         }
 
         response = self.do_post_with(

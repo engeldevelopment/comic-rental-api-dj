@@ -18,11 +18,17 @@ class Comic:
 
 
 class Rental:
+    def generate_uuid(self, id):
+        generated_id = id
+        if id is None:
+            generated_id = uuid.uuid4()
+        return generated_id
+    
     def __init__(self,
                  days,
                  client,
-                 rented_at,
                  comic_id: ComicId,
+                 rented_at,
                  id=None,
                  finished_at=None,
                  price=None,
@@ -30,17 +36,13 @@ class Rental:
         self.id = self.generate_uuid(id)
         self._days = Days(days)
         self.client = client
+        if rented_at is None:
+            rented_at = datetime.now()
         self.rented_at = rented_at
         self.comicId = comic_id
         self.finished_at = finished_at
         self.price = price
         self.amount = amount
-    
-    def generate_uuid(self, id):
-        generated_id = id
-        if id is None:
-            generated_id = uuid.uuid4()
-        return generated_id
 
     @property
     def days(self):
@@ -48,9 +50,14 @@ class Rental:
 
     @property
     def get_finished_at(self):
-        transform = datetime.strptime(self.rented_at, '%Y-%m-%d %H:%M:%S')
-        _finished_at = transform + timedelta(days=self.days)
+        rented_at_str = self.datetime_without_microseconds(self.rented_at)
+        rented_at = datetime.strptime(rented_at_str, '%Y-%m-%d %H:%M:%S')
+        _finished_at = rented_at + timedelta(days=self.days)
         return _finished_at
+
+    @staticmethod
+    def datetime_without_microseconds(date):
+        return str(date).split('.')[0]
     
     @property
     def to_json(self):

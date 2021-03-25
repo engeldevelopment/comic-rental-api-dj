@@ -37,7 +37,7 @@ class ComicRentAPIView(APIView):
             id=request.data.get('id', None),
             days=request.data.get('days', ""),
             client=request.data['client'],
-            rented_at=request.data['rented_at'],
+            rented_at=request.data.get('rented_at', None),
             comic_id=pk
         )
 
