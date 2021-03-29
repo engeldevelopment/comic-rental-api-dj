@@ -1,6 +1,6 @@
 from injector import inject
 
-from ..domain.repositories import ComicRepository
+from ..domain.repositories import ComicRepository, RentalRepository
 
 
 class ComicAllFinder:
@@ -10,3 +10,13 @@ class ComicAllFinder:
 
     def __call__(self):
         return self.repository.all()
+
+
+class LastRentalFinder:
+
+    @inject
+    def __init__(self, repository: RentalRepository):
+        self.repository = repository
+    
+    def __call__(self):
+        return self.repository.last_rental()

@@ -1,5 +1,7 @@
 from factory.django import DjangoModelFactory
 
+from apps.comics.domain.vo import ComicStatus
+
 from .models import Comic
 
 
@@ -9,4 +11,4 @@ class ComicFactory(DjangoModelFactory):
     
     name = 'Comic'
     price = 100
-    status = 'acceptable'
+    status = ComicStatus.ACCEPTABLE.value
