@@ -4,3 +4,7 @@ class ComicNotFound(Exception):
 
 class InvalidDays(ValueError):
     pass
+
+
+class ThisIsNotAValidName(ValueError):
+    pass

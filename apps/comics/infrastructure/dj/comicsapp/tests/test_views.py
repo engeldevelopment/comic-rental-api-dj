@@ -124,6 +124,34 @@ class RentComicAPIViewTest(APITestCase):
         self.assertEqual(status.HTTP_400_BAD_REQUEST, response.status_code)
         self.assertEqual("This is not a valid days '-3'.", response.data['message'])
 
+    def test_if_not_pass_a_client_should_give_an_error(self):
+        data = {
+            'days': "3",
+            'client': ""
+        }
+
+        response = self.do_post_with(
+            id=self.comic.id,
+            data=data
+        )
+
+        self.assertEqual(status.HTTP_400_BAD_REQUEST, response.status_code)
+        self.assertEqual("This is not a valid name for a client ''.", response.data['message'])
+
+    def test_if_the_name_for_client_is_numeric_should_give_an_error(self):
+        data = {
+            'days': "3",
+            'client': "12884"
+        }
+
+        response = self.do_post_with(
+            id=self.comic.id,
+            data=data
+        )
+
+        self.assertEqual(status.HTTP_400_BAD_REQUEST, response.status_code)
+        self.assertEqual("This is not a valid name for a client '12884'.", response.data['message'])
+
     @staticmethod
     def generate_url(for_id):
         return '/api/v1/comics/{0}/rent/'.format(for_id)

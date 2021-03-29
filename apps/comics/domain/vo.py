@@ -4,7 +4,16 @@ from datetime import datetime
 from enum import Enum
 from dataclasses import dataclass
 
-from .exceptions import InvalidDays
+from .exceptions import InvalidDays, ThisIsNotAValidName
+
+
+class ComicClient:
+    valid_name = re.compile(r'\w+\D')
+
+    def __init__(self, value):
+        if self.valid_name.match(value) is None:
+            raise ThisIsNotAValidName(f"This is not a valid name for a client '{value}'.")
+        self.value = value
 
 
 @dataclass

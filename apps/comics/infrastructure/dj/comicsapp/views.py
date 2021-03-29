@@ -8,7 +8,7 @@ from injector import inject
 from apps.comics.application.commands import RentComicCommand
 from apps.comics.application.finders import ComicAllFinder
 from apps.comics.application.services import RentComicService
-from apps.comics.domain.exceptions import ComicNotFound, InvalidDays
+from apps.comics.domain.exceptions import ComicNotFound, InvalidDays, ThisIsNotAValidName
 
 from .serializers import ComicSerializer
 
@@ -36,7 +36,7 @@ class ComicRentAPIView(APIView):
         command = RentComicCommand(
             id=request.data.get('id', None),
             days=request.data.get('days', ""),
-            client=request.data['client'],
+            client=request.data.get('client', ""),
             rented_at=request.data.get('rented_at', None),
             comic_id=pk
         )
@@ -50,4 +50,6 @@ class ComicRentAPIView(APIView):
         except ComicNotFound:
             return Response(status=status.HTTP_404_NOT_FOUND)
         except InvalidDays as e:
+            return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except ThisIsNotAValidName as e:
             return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
