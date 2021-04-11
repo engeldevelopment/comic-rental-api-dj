@@ -9,8 +9,9 @@ from apps.comics.application.commands import RentComicCommand
 from apps.comics.application.finders import ComicAllFinder
 from apps.comics.application.services import RentComicService
 from apps.comics.domain.exceptions import ComicNotFound, InvalidDays, ThisIsNotAValidName
+from .models import Rental
 
-from .serializers import ComicSerializer
+from .serializers import ComicSerializer, RentalSerializer
 
 
 class ComicListAPIView(generics.ListAPIView):
@@ -53,3 +54,8 @@ class ComicRentAPIView(APIView):
             return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except ThisIsNotAValidName as e:
             return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class RentalListAPIView(generics.ListAPIView):
+    serializer_class = RentalSerializer
+    queryset = Rental.objects.all()
