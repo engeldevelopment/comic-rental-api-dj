@@ -20,3 +20,12 @@ class LastRentalFinder:
     
     def __call__(self):
         return self.repository.last_rental()
+
+
+class AllRentalFinder:
+    @inject
+    def __init__(self, repository: RentalRepository):
+        self.repository = repository
+
+    def __call__(self):
+        return self.repository.all()

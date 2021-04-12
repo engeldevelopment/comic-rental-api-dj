@@ -24,3 +24,7 @@ class RentalRepository(abc.ABC):
     @abc.abstractmethod
     def last_rental(self) -> Rental:
         pass
+
+    @abc.abstractmethod
+    def all(self):
+        pass

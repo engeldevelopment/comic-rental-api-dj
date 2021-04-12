@@ -173,3 +173,27 @@ class RentComicAPIViewTest(APITestCase):
     def assertAmountOfRentalIs(self, amount):
         rent = Rental.objects.last()
         self.assertEqual(amount, rent.amount)
+
+
+class RentalListAPIViewTest(APITestCase):
+    def setUp(self):
+        self.url = "/api/v1/rentals"
+
+    def test_if_there_arent_rentals_should_show_a_empty_list(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual([], response.data)
+
+    def test_if_there_are_rentals_should_show_it(self):
+        data = {
+            "days": "3",
+            "client": "I am"
+        }
+        comic = ComicFactory.create()
+
+        rent_url = "/api/v1/comics/{0}/rent/".format(comic.id)
+        self.client.post(rent_url, data)
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(1, len(response.data))
