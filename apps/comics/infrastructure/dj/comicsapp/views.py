@@ -6,10 +6,9 @@ from rest_framework import status
 from injector import inject
 
 from apps.comics.application.commands import RentComicCommand
-from apps.comics.application.finders import ComicAllFinder
+from apps.comics.application.finders import ComicAllFinder, AllRentalFinder
 from apps.comics.application.services import RentComicService
 from apps.comics.domain.exceptions import ComicNotFound, InvalidDays, ThisIsNotAValidName
-from .models import Rental
 
 from .serializers import ComicSerializer, RentalSerializer
 
@@ -58,4 +57,11 @@ class ComicRentAPIView(APIView):
 
 class RentalListAPIView(generics.ListAPIView):
     serializer_class = RentalSerializer
-    queryset = Rental.objects.all()
+
+    @inject
+    def __init__(self, finder: AllRentalFinder, **kwargs):
+        super().__init__(**kwargs)
+        self.finder = finder
+
+    def get_queryset(self):
+        return self.finder()
