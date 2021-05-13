@@ -13,6 +13,7 @@ from ..models import Rental
 class ComicListAPIViewTest(APITestCase):
     def setUp(self):
         self.url = '/api/v1/comics'
+        self.status_url = "/api/v1/comics?status={0}"
 
     def test_show_a_comic_list(self):
         ComicFactory.create(name="DBZ")
@@ -29,6 +30,22 @@ class ComicListAPIViewTest(APITestCase):
 
         self.assertEqual(status.HTTP_200_OK, response.status_code)
         self.assertEqual([], response.data)
+    
+    def test_filter_comics_by_status(self):
+        ComicFactory.create(status=ComicStatus.ACCEPTABLE.value)
+
+        response = self.client.get(self.status_url.format(ComicStatus.ACCEPTABLE.value))
+
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        self.assertEqual(1, len(response.data))
+
+    def test_there_arent_comics_with_this_status(self):
+        ComicFactory.create(status=ComicStatus.ACCEPTABLE.value)
+
+        response = self.client.get(self.status_url.format(ComicStatus.EXCELLENT.value))
+
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        self.assertEqual(0, len(response.data))
 
 
 class RentComicAPIViewTest(APITestCase):
