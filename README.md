@@ -10,6 +10,13 @@ deteriorado (30%), dañado (50%).
 ## End Points disponibles :link:
 
 - Listado de comics: **GET** ***/api/v1/comics/***
+- Listado de comics por status: **GET** ***/api/v1/comics?status=xxx***
+  - valores permitidos para el status:  
+    - excellent
+    - good
+    - acceptable
+    - impaired
+    - damaged
 - Listado de rentals: **GET** ***/api/v1/rentals/***  
 - Alquilar una comic: **POST** ***/api/v1/comics/:id/rentals/***  
   EL cuerpo de la petición tiene que ser:  
@@ -46,4 +53,5 @@ deteriorado (30%), dañado (50%).
 - Python 3.8
 - Django
 - Django Rest Framework
+- Django filter
 - Django Injector

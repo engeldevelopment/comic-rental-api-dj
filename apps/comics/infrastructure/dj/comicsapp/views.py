@@ -10,11 +10,15 @@ from apps.comics.application.finders import ComicAllFinder, AllRentalFinder
 from apps.comics.application.services import RentComicService
 from apps.comics.domain.exceptions import ComicNotFound, InvalidDays, ThisIsNotAValidName
 
+from .filters import ComicFilter
+from .models import Comic
 from .serializers import ComicSerializer, RentalSerializer
 
 
 class ComicListAPIView(generics.ListAPIView):
+    queryset = Comic.objects.all()
     serializer_class = ComicSerializer
+    filterset_class = ComicFilter 
 
     @inject
     def setup(self, request, finder: ComicAllFinder, *args, **kwargs):
