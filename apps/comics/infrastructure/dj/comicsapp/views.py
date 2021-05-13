@@ -64,8 +64,8 @@ class RentalListAPIView(generics.ListAPIView):
     serializer_class = RentalSerializer
 
     @inject
-    def __init__(self, finder: AllRentalFinder, **kwargs):
-        super().__init__(**kwargs)
+    def setup(self, request, finder: AllRentalFinder, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
         self.finder = finder
 
     def get_queryset(self):
