@@ -1,7 +1,7 @@
 # Kata: Alquiler de Comics. :books:
 
 
-Willian tiene una tienda donde alquila historietss usadas,
+Willian tiene una tienda donde alquila historietas usadas,
 donde su costo depende de su precio de compra menos un descuento
 por el estado del ejemplar: excelente (10%), bueno (20%), aceptable (25%),
 deteriorado (30%), dañado (50%).  
@@ -9,9 +9,9 @@ deteriorado (30%), dañado (50%).
 
 ## End Points disponibles :link:
 
-- Listado de comics: **GET** ***/api/v1/comics***
-- Listado de rentals: **GET** ***/api/v1/rentals***  
-- Alquilar una comic: **POST** ***/api/v1/comics/:id/rent***  
+- Listado de comics: **GET** ***/api/v1/comics/***
+- Listado de rentals: **GET** ***/api/v1/rentals/***  
+- Alquilar una comic: **POST** ***/api/v1/comics/:id/rentals/***  
   EL cuerpo de la petición tiene que ser:  
   ```
    {
@@ -46,3 +46,4 @@ deteriorado (30%), dañado (50%).
 - Python 3.8
 - Django
 - Django Rest Framework
+- Django Injector
