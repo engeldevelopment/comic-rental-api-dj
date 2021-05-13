@@ -154,7 +154,7 @@ class RentComicAPIViewTest(APITestCase):
 
     @staticmethod
     def generate_url(for_id):
-        return '/api/v1/comics/{0}/rent/'.format(for_id)
+        return '/api/v1/comics/{0}/rentals/'.format(for_id)
     
     @staticmethod
     def generate_uuid():
@@ -191,7 +191,7 @@ class RentalListAPIViewTest(APITestCase):
         }
         comic = ComicFactory.create()
 
-        rent_url = "/api/v1/comics/{0}/rent/".format(comic.id)
+        rent_url = "/api/v1/comics/{0}/rentals/".format(comic.id)
         self.client.post(rent_url, data)
 
         response = self.client.get(self.url)
