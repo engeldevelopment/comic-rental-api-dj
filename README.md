@@ -10,6 +10,7 @@ deteriorado (30%), dañado (50%).
 ## End Points disponibles :link:
 
 - Listado de comics: **GET** ***/api/v1/comics***
+- Listado de rentals: **GET** ***/api/v1/rentals***  
 - Alquilar una comic: **POST** ***/api/v1/comics/:id/rent***  
   EL cuerpo de la petición tiene que ser:  
   ```
@@ -18,6 +19,27 @@ deteriorado (30%), dañado (50%).
         "client": character 
    }
   ```
+  
+ La estructura del listado de Rentals será la siguiente:  
+ ```
+[ 
+    {
+        "id": "61d07f22-6644-4562-a353-b24ed859042c",
+        "days": 5,
+        "client": "Engel Pinto",
+        "amount": 2.5,
+        "price": 5.0,
+        "comic": {
+            "id": 3,
+            "name": "X-Man",
+            "price": 5.0,
+            "status": "damaged"
+        },
+        "rented_at": "2020-03-19T19:00:00",
+        "finished_at": "2020-03-24T19:00:00"
+    }
+]
+```
 
 ## Tecnologías utilizadas :construction:
 

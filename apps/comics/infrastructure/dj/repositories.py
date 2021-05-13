@@ -57,3 +57,6 @@ class RentalDjangoRepository(RentalRepository):
             amount=object.amount,
             comic_id=ComicId(object.comic.id)
         )
+
+    def all(self):
+        return RentalModel.objects.all()
