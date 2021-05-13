@@ -17,8 +17,8 @@ class ComicListAPIView(generics.ListAPIView):
     serializer_class = ComicSerializer
 
     @inject
-    def __init__(self, finder: ComicAllFinder, **kwargs):
-        super().__init__(**kwargs)
+    def setup(self, request, finder: ComicAllFinder, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
         self.finder = finder
 
     def get_queryset(self):
@@ -26,10 +26,15 @@ class ComicListAPIView(generics.ListAPIView):
 
 
 class ComicRentAPIView(APIView):
-
     @inject
-    def __init__(self, rent_comic_service: RentComicService, **kwargs):
-        super().__init__(**kwargs)
+    def setup(
+        self,
+        request,
+        rent_comic_service: RentComicService,
+        *args,
+        **kwargs
+    ):
+        super().setup(request, *args, **kwargs)
         self.rent_comic_service = rent_comic_service
 
     def post(self, request, pk):
