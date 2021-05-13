@@ -6,19 +6,19 @@ from rest_framework import status
 from injector import inject
 
 from apps.comics.application.commands import RentComicCommand
-from apps.comics.application.finders import ComicAllFinder
+from apps.comics.application.finders import ComicAllFinder, AllRentalFinder
 from apps.comics.application.services import RentComicService
 from apps.comics.domain.exceptions import ComicNotFound, InvalidDays, ThisIsNotAValidName
 
-from .serializers import ComicSerializer
+from .serializers import ComicSerializer, RentalSerializer
 
 
 class ComicListAPIView(generics.ListAPIView):
     serializer_class = ComicSerializer
 
     @inject
-    def __init__(self, finder: ComicAllFinder, **kwargs):
-        super().__init__(**kwargs)
+    def setup(self, request, finder: ComicAllFinder, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
         self.finder = finder
 
     def get_queryset(self):
@@ -26,10 +26,15 @@ class ComicListAPIView(generics.ListAPIView):
 
 
 class ComicRentAPIView(APIView):
-
     @inject
-    def __init__(self, rent_comic_service: RentComicService, **kwargs):
-        super().__init__(**kwargs)
+    def setup(
+        self,
+        request,
+        rent_comic_service: RentComicService,
+        *args,
+        **kwargs
+    ):
+        super().setup(request, *args, **kwargs)
         self.rent_comic_service = rent_comic_service
 
     def post(self, request, pk):
@@ -53,3 +58,15 @@ class ComicRentAPIView(APIView):
             return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except ThisIsNotAValidName as e:
             return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class RentalListAPIView(generics.ListAPIView):
+    serializer_class = RentalSerializer
+
+    @inject
+    def setup(self, request, finder: AllRentalFinder, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.finder = finder
+
+    def get_queryset(self):
+        return self.finder()

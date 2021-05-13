@@ -1,4 +1,4 @@
 Django==3.1.7
 djangorestframework==3.12.2
-django-injector==0.2.2
+django-injector==0.2.3
 python-decouple==3.4
