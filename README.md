@@ -18,6 +18,7 @@ deteriorado (30%), dañado (50%).
     - impaired
     - damaged
 - Listado de rentals: **GET** ***/api/v1/rentals/***  
+- Detalle de un rental: **GET** ***/api/v1/rentals/:id***
 - Alquilar una comic: **POST** ***/api/v1/comics/:id/rentals/***  
   EL cuerpo de la petición tiene que ser:  
   ```
