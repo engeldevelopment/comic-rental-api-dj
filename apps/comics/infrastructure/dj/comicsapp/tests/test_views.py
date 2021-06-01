@@ -214,3 +214,25 @@ class RentalListAPIViewTest(APITestCase):
         response = self.client.get(self.url)
 
         self.assertEqual(1, len(response.data))
+
+
+class RentalDetailAPIView(APITestCase):
+    def test_i_can_see_a_rental_by_id(self):
+        comic = ComicFactory.create()
+        rental_url = "/api/v1/comics/{0}/rentals/".format(comic.id)
+        data = {
+            "days": 4,
+            "client": "Angel Pinto"
+        }
+        self.client.post(rental_url, data)
+
+        rental = Rental.objects.last()
+        url = "/api/v1/rentals/{0}/".format(rental.id)
+        response = self.client.get(url)
+
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+
+    def test_return_404_status_when_a_rental_not_exists(self):
+        url = "/api/v1/rentals/{0}/".format("45566-12334-1223-1234")
+        response = self.client.get(url)
+        self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
