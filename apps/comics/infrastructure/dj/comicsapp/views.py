@@ -11,7 +11,7 @@ from apps.comics.application.services import RentComicService
 from apps.comics.domain.exceptions import ComicNotFound, InvalidDays, ThisIsNotAValidName
 
 from .filters import ComicFilter
-from .models import Comic
+from .models import Comic, Rental
 from .serializers import ComicSerializer, RentalSerializer
 
 
@@ -74,3 +74,8 @@ class RentalListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         return self.finder()
+
+
+class RentalDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = RentalSerializer
+    queryset = Rental.objects.all()
