@@ -1,8 +1,10 @@
+from injector import inject
+
 from .entities import Comic
 from .vo import ComicStatus
 
 
-class ObtainAmountToPayService:
+class DiscountService:
     def __call__(self, comic: Comic):
         DISCOUNTS = {
             ComicStatus.EXCELLENT: ExcellentComicDiscount.for_this(comic=comic).apply(),
@@ -11,9 +13,17 @@ class ObtainAmountToPayService:
             ComicStatus.IMPAIRED: ImpairedComicDiscount.for_this(comic=comic).apply(),
             ComicStatus.DAMAGED: DamagedComicDiscount.for_this(comic=comic).apply()
         }
-
         discount = DISCOUNTS.get(comic.status)
-        return comic.price - discount
+        return discount
+
+
+class ObtainAmountToPayService:
+    @inject
+    def __init__(self, discount_service: DiscountService):
+        self.discount_service = discount_service
+
+    def __call__(self, comic: Comic):
+        return comic.price - self.discount_service(comic)
 
 
 class Discount:

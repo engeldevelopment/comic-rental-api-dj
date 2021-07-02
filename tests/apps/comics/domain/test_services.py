@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from apps.comics.domain.services import ObtainAmountToPayService
+from apps.comics.domain.services import ObtainAmountToPayService, DiscountService
 from apps.comics.domain.vo import ComicStatus
 
 
@@ -10,7 +10,7 @@ from tests.apps.comics.factories import ComicFactory
 class ObtainAmountToPayServiceTest(TestCase):
 
     def setUp(self):
-        self.obtain_amount_to_pay = ObtainAmountToPayService()
+        self.obtain_amount_to_pay = ObtainAmountToPayService(DiscountService())
         self.comic = None
 
     def assertThatAmountToPayIs(self, amount):
